@@ -1,28 +1,18 @@
-doctype html
-head
-  title New Book
-  link(rel='stylesheet' href='stylesheets/style.css')
-nav
-  ul
-    li
-      a(href='all_books') Books
-    li
-      a(href='all_patrons') Patrons
-    li
-      a(href='all_loans') Loans
-h1 New Book
-form
-  p
-    label(for='title') Title
-    input#title(type='text')
-  p
-    label(for='author') Author
-    input#author(type='text')
-  p
-    label(for='genre') Genre
-    input#genre(type='text')
-  p
-    label(for='first_published') First Published
-    input#first_published(type='text')
-  p
-    input(type='submit' value='Create New Book')
+extends layout 
+block content 
+  h1 New Book
+  form
+    p
+      label(for='title') Title
+      input#title(type='text')
+    p
+      label(for='author') Author
+      input#author(type='text')
+    p
+      label(for='genre') Genre
+      input#genre(type='text')
+    p
+      label(for='first_published') First Published
+      input#first_published(type='text')
+    p
+      input(type='submit' value='Create New Book')

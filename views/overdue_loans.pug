@@ -1,62 +1,52 @@
-doctype html
-head
-  title Overdue Loans
-  link(rel='stylesheet' href='stylesheets/style.css')
-nav
-  ul
-    li
-      a(href='all_books') Books
-    li
-      a(href='all_patrons') Patrons
-    li
-      a(href='all_loans') Loans
-h1 Overdue Loans
-p
-  a.button(href='new_loan') Create New Loan
-p
-  | Filters 
-  a(href='all_loans') All
-  |  | 
-  a(href='overdue_loans') Overdue
-  |  | 
-  a(href='checked_loans') Checked Out
-table
-  thead
-    tr
-      th Book
-      th Patron 
-      th Loaned on
-      th Return by 
-      th Returned on
-      th Action
-  tbody
-    tr
-      td
-        a(href='book_detail') Harry Potter and the Goblet of Fire
-      td
-        a(href='patron_detail') Andrew Chalkley
-      td 2015-12-11
-      td 2015-12-18
-      td
-      td
-        a.button(href='return_book') Return Book
-    tr
-      td
-        a(href='book_detail') A Brief History of Time
-      td
-        a(href='patron_detail') Andrew Chalkley
-      td 2015-12-12
-      td 2015-12-19
-      td
-      td
-        a.button(href='return_book') Return Book
-    tr
-      td
-        a(href='book_detail') The Universe in a Nutshell
-      td
-        a(href='patron_detail') Alena Holligan
-      td 2015-12-13
-      td 2015-12-20
-      td
-      td
-        a.button(href='return_book') Return Book
+extends layout 
+block content 
+  h1 Overdue Loans
+  p
+    a.button(href='new_loan') Create New Loan
+  p
+    | Filters 
+    a(href='all_loans') All
+    |  | 
+    a(href='overdue_loans') Overdue
+    |  | 
+    a(href='checked_loans') Checked Out
+  table
+    thead
+      tr
+        th Book
+        th Patron 
+        th Loaned on
+        th Return by 
+        th Returned on
+        th Action
+    tbody
+      tr
+        td
+          a(href='book_detail') Harry Potter and the Goblet of Fire
+        td
+          a(href='patron_detail') Andrew Chalkley
+        td 2015-12-11
+        td 2015-12-18
+        td
+        td
+          a.button(href='return_book') Return Book
+      tr
+        td
+          a(href='book_detail') A Brief History of Time
+        td
+          a(href='patron_detail') Andrew Chalkley
+        td 2015-12-12
+        td 2015-12-19
+        td
+        td
+          a.button(href='return_book') Return Book
+      tr
+        td
+          a(href='book_detail') The Universe in a Nutshell
+        td
+          a(href='patron_detail') Alena Holligan
+        td 2015-12-13
+        td 2015-12-20
+        td
+        td
+          a.button(href='return_book') Return Book

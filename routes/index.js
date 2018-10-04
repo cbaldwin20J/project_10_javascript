@@ -27,8 +27,8 @@ router.get('/checked_books', function(req, res, next) {
     res.render('checked_books');
 });
 
-router.get('/check_loans', function(req, res, next) {
-    res.render('check_loans');
+router.get('/checked_loans', function(req, res, next) {
+    res.render('checked_loans');
 });
 
 router.get('/error', function(req, res, next) {
