@@ -35,7 +35,7 @@ router.get('/error', function(req, res, next) {
     res.render('error');
 });
 
-router.get('/new_book', function(req, res, next) {
+router.get('/books/new', function(req, res, next) {
     res.render('new_book');
 });
 
@@ -43,7 +43,7 @@ router.get('/new_loan', function(req, res, next) {
     res.render('new_loan');
 });
 
-router.get('/new_patron', function(req, res, next) {
+router.get('/patrons/new', function(req, res, next) {
     res.render('new_patron');
 });
 
