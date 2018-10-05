@@ -8,19 +8,46 @@ router.get('/', function(req, res, next) {
 });
   
 router.get('/all_books', function(req, res, next) {
-    res.render('all_books');
+    models.Book.findAll().then(function(books){
+    /* render the index page */
+    res.render("all_books", {books: books});
+    /* if there is nothing in the 'Article' table */
+  }).catch(function(error){
+      res.send(500, error);
+   });
 });
 
+/* not finished. Need to work out foreign keys for this one */
 router.get('/all_loans', function(req, res, next) {
-    res.render('all_loans');
+    models.Loan.findAll().then(function(loans){
+    /* render the index page */
+        res.render("all_loans", {loans: loans});
+    /* if there is nothing in the 'Article' table */
+  }).catch(function(error){
+      res.send(500, error);
+   });
 });
 
 router.get('/all_patrons', function(req, res, next) {
-    res.render('all_patrons');
+    models.Patron.findAll().then(function(patrons){
+    /* render the index page */
+        res.render("all_patrons", {patrons: patrons});
+    /* if there is nothing in the 'Article' table */
+  }).catch(function(error){
+      res.send(500, error);
+   });
 });
 
-router.get('/book_detail', function(req, res, next) {
-    res.render('book_detail');
+/* not finished with this one. Need to do loan history at the bottom
+of the page */
+router.get('/book_detail/:id', function(req, res, next) {
+    models.Book.findById(req.params.id).then(function(book){
+    
+        res.render("book_detail", {book: book});
+    
+  }).catch(function(error){
+      res.send(500, error);
+   });
 });
 
 router.get('/checked_books', function(req, res, next) {
@@ -55,8 +82,16 @@ router.get('/overdue_loans', function(req, res, next) {
     res.render('overdue_loans');
 });
 
-router.get('/patron_detail', function(req, res, next) {
-    res.render('patron_detail');
+/* not finished with this one. Need to do loan history at the bottom
+of the page */
+router.get('/patron_detail/:id', function(req, res, next) {
+    models.Patron.findById(req.params.id).then(function(patron){
+    
+        res.render("patron_detail", {patron: patron});
+    
+  }).catch(function(error){
+      res.send(500, error);
+   });
 });
 
 router.get('/return_book', function(req, res, next) {
