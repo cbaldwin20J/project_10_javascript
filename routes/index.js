@@ -45,28 +45,27 @@ router.get('/all_patrons', function(req, res, next) {
 of the page */
 router.get('/book_detail/:id', function(req, res, next) {
     
-        models.Book.findById(req.params.id).then(function(book){
-            models.Loan.findAll({include: [models.Patron], where: {book_id:req.params.id}}).then(function(loans){
-                res.render("book_detail", {book:book, loans:loans});
-            });
-
-            
-            
-
-        
-        
-    
-  }).catch(function(error){
+    models.Book.findById(req.params.id).then(function(book){
+        models.Loan.findAll({include: [models.Patron], where: {book_id:req.params.id}}).then(function(loans){
+            res.render("book_detail", {book:book, loans:loans});
+        });
+    }).catch(function(error){
       res.send(500, error);
-   });
+        });
 });
 
 router.get('/checked_books', function(req, res, next) {
-    res.render('checked_books');
+    models.Loan.findAll({include: [models.Book], where: {returned_on: null}}).then(function(loans){
+        res.render('checked_books', {unreturned_loans: loans});
+    });
+    
 });
 
 router.get('/checked_loans', function(req, res, next) {
-    res.render('checked_loans');
+    models.Loan.findAll({include: [models.Book, models.Patron], where: {returned_on: null}}).then(function(loans){
+        res.render('checked_loans', {unreturned_loans: loans});
+    });
+    
 });
 
 router.get('/error', function(req, res, next) {
@@ -85,12 +84,30 @@ router.get('/patrons/new', function(req, res, next) {
     res.render('new_patron');
 });
 
+function formatDate() {
+    var d = new Date(),
+        month = '' + (d.getMonth() + 1),
+        day = '' + d.getDate(),
+        year = d.getFullYear();
+
+    if (month.length < 2) month = '0' + month;
+    if (day.length < 2) day = '0' + day;
+
+    return [year, month, day].join('-');
+}
+
 router.get('/overdue_books', function(req, res, next) {
-    res.render('overdue_books');
+    models.Loan.findAll({include: [models.Book], where: {returned_on: null, return_by:{$lt:formatDate()}}}).then(function(loans){
+        res.render('overdue_books', {overdue_loans: loans});
+    });
+    
 });
 
 router.get('/overdue_loans', function(req, res, next) {
-    res.render('overdue_loans');
+    models.Loan.findAll({include: [models.Book, models.Patron], where: {returned_on: null, return_by:{$lt:formatDate()}}}).then(function(loans){
+        res.render('overdue_loans', {overdue_loans: loans});
+    });
+    
 });
 
 /* not finished with this one. Need to do loan history at the bottom

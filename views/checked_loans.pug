@@ -24,43 +24,15 @@ block content
         th Returned on
         th Action
     tbody
-      tr
-        td
-          a(href='book_detail') Emma
-        td
-          a(href='patron_detail') Dave McFarland
-        td 2015-12-10
-        td 2020-10-20
-        td
-        td
-          a.button(href='return_book') Return Book
-      tr
-        td
-          a(href='book_detail') Harry Potter and the Goblet of Fire
-        td
-          a(href='patron_detail') Andrew Chalkley
-        td 2015-12-11
-        td 2015-12-18
-        td
-        td
-          a.button(href='return_book') Return Book
-      tr
-        td
-          a(href='book_detail') A Brief History of Time
-        td
-          a(href='patron_detail') Andrew Chalkley
-        td 2015-12-12
-        td 2015-12-19
-        td
-        td
-          a.button(href='return_book') Return Book
-      tr
-        td
-          a(href='book_detail') The Universe in a Nutshell
-        td
-          a(href='patron_detail') Alena Holligan
-        td 2015-12-13
-        td 2015-12-20
-        td
-        td
-          a.button(href='return_book') Return Book
+      each unreturned_loan in unreturned_loans
+        tr
+          td
+            a(href='book_detail') #{unreturned_loan.Book.title}
+          td
+            a(href='patron_detail') #{unreturned_loan.Patron.first_name} #{unreturned_loan.Patron.last_name}
+          td #{unreturned_loan.loaned_on}
+          td #{unreturned_loan.return_by}
+          td
+          td
+            a.button(href='return_book') Return Book
+        

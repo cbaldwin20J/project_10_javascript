@@ -22,21 +22,11 @@ block content
         th Genre
         th Year Released
     tbody
-      tr
-        td
-          a(href='book_detail') Harry Potter and the Goblet of Fire
-        td J.K. Rowling
-        td Fantasy
-        td 2000
-      tr
-        td
-          a(href='book_detail') A Brief History of Time
-        td Stephen Hawking
-        td Non Fiction
-        td 1988
-      tr
-        td
-          a(href='book_detail') The Universe in a Nutshell
-        td Stephen Hawking
-        td Non Fiction
-        td 2001
+      each overdue_loan in overdue_loans
+        tr
+          td
+            a(href='book_detail') #{overdue_loan.Book.title}
+          td #{overdue_loan.Book.author}
+          td #{overdue_loan.Book.genre}
+          td #{overdue_loan.Book.first_published}
+        

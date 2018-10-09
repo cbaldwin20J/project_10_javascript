@@ -23,3 +23,8 @@ block content
       input#first_published(type='text')
     p
       input(type='submit' value='Create New Book')
+
+
+  
+  h2= error.status
+  pre #{error.stack}
