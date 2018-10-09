@@ -27,12 +27,15 @@ block content
       each loan in loans
         tr
           td
-            a(href='book_detail') Emma
+            a(href='book_detail') #{loan.Book.title}
           td
-            a(href='patron_detail') Dave McFarland
-          td 2015-12-10
-          td 2020-10-20
-          td
-          td
-            a.button(href='return_book') Return Book
+            a(href='patron_detail') #{loan.Patron.first_name} #{loan.Patron.last_name}
+          td #{loan.loaned_on}
+          td #{loan.return_by}
+          td #{loan.returned_on}
+          if loan.returned_on
+            td returned
+          else
+            td
+              a.button(href='return_book') Return Book
         

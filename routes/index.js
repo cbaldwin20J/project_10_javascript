@@ -19,7 +19,7 @@ router.get('/all_books', function(req, res, next) {
 
 /* not finished. Need to work out foreign keys for this one */
 router.get('/all_loans', function(req, res, next) {
-    models.Loan.findAll().then(function(loans){
+    models.Loan.findAll({include: [models.Patron, models.Book]}).then(function(loans){
     /* render the index page */
         res.render("all_loans", {loans: loans});
     /* if there is nothing in the 'Article' table */
@@ -104,15 +104,6 @@ router.get('/erase', function(req, res, next) {
 
 
 
-
-router.get('/new_loan', function(req, res, next) {
-    res.render('new_loan');
-});
-
-router.get('/patrons/new', function(req, res, next) {
-    res.render('new_patron');
-});
-
 function formatDate() {
     var d = new Date(),
         month = '' + (d.getMonth() + 1),
@@ -124,6 +115,83 @@ function formatDate() {
 
     return [year, month, day].join('-');
 }
+
+function formatDate2(date) {
+    var d = new Date(date),
+        month = '' + (d.getMonth() + 1),
+        day = '' + d.getDate(),
+        year = d.getFullYear();
+
+    if (month.length < 2) month = '0' + month;
+    if (day.length < 2) day = '0' + day;
+
+    return [year, month, day].join('-');
+}
+
+
+router.get('/new_loan', function(req, res, next) {
+    models.Book.findAll().then(function(books){
+        models.Patron.findAll().then(function(patrons){
+            let loanedOn = formatDate();
+            let returnByRaw = new Date();
+            returnByRaw.setDate(returnByRaw.getDate() + 7);
+            let returnBy = formatDate2(returnByRaw)
+            res.render('new_loan', {books:books, patrons:patrons, loanedOn:loanedOn, returnBy:returnBy});
+        });
+    });
+    
+});
+
+
+router.post('/new_loan', function(req, res, next) {
+  // Create a new row in the 'Article' table. 'req.body' is the POST info.
+  // function(article) is the newly created instance.
+  models.Loan.create(req.body).then(function(loan) {
+    // after created, then redirect to this url to display newly created instance.
+    res.redirect("/all_loans/");
+    // if an error with creating the instance
+  }).catch(function(error){
+    // if the error is our custom validator we created in the model
+      if(error.name === "SequelizeValidationError") {
+        // re render the form, 'Article.build' I assume is send what we have for this instance, and send the errors.
+        res.render("new_loan", {loan: models.Loan.build(req.body), errors: error.errors});
+      } 
+  });
+});
+
+
+
+
+
+
+router.get('/patrons/new', function(req, res, next) {
+    res.render('new_patron', {patron:{} });
+});
+
+
+router.post('/patrons/new', function(req, res, next) {
+  // Create a new row in the 'Article' table. 'req.body' is the POST info.
+  // function(article) is the newly created instance.
+  models.Patron.create(req.body).then(function(patron) {
+    // after created, then redirect to this url to display newly created instance.
+    res.redirect("/patron_detail/" + patron.id);
+    // if an error with creating the instance
+  }).catch(function(error){
+    // if the error is our custom validator we created in the model
+      if(error.name === "SequelizeValidationError") {
+        // re render the form, 'Article.build' I assume is send what we have for this instance, and send the errors.
+        res.render("new_patron", {patron: models.Patron.build(req.body), errors: error.errors});
+      } 
+  });
+});
+
+
+
+
+
+
+
+
 
 router.get('/overdue_books', function(req, res, next) {
     models.Loan.findAll({include: [models.Book], where: {returned_on: null, return_by:{$lt:formatDate()}}}).then(function(loans){
@@ -143,8 +211,10 @@ router.get('/overdue_loans', function(req, res, next) {
 of the page */
 router.get('/patron_detail/:id', function(req, res, next) {
     models.Patron.findById(req.params.id).then(function(patron){
-    
-        res.render("patron_detail", {patron: patron});
+        models.Loan.findAll({include: [models.Book], where: {patron_id: req.params.id}}).then(function(loans){
+            res.render("patron_detail", {loans: loans, patron:patron});
+        });
+        
     
   }).catch(function(error){
       res.send(500, error);
