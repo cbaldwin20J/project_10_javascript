@@ -96,11 +96,7 @@ router.post('/books/new', function(req, res, next) {
 
 
 
-router.get('/erase', function(req, res, next) {
-    models.Book.findOne().then(function(book){
-        console.log("****************" + book.first_published);
-    })
-})
+
 
 
 
@@ -128,6 +124,21 @@ function formatDate2(date) {
     return [year, month, day].join('-');
 }
 
+router.get('/erase', function(req, res, next) {
+    
+    let returnByRaw = new Date();
+    returnByRaw.setDate(returnByRaw.getDate() + 7);
+
+    let returnBy = formatDate2(returnByRaw);
+    let loanedOn = formatDate();
+
+    models.Loan.create({ book_id: 17, patron_id: 5, loaned_on: loanedOn, return_by: returnBy }).then(function(loan){
+        res.render('all_loans');
+    });
+});
+
+
+
 
 router.get('/new_loan', function(req, res, next) {
     models.Book.findAll().then(function(books){
@@ -135,7 +146,7 @@ router.get('/new_loan', function(req, res, next) {
             let loanedOn = formatDate();
             let returnByRaw = new Date();
             returnByRaw.setDate(returnByRaw.getDate() + 7);
-            let returnBy = formatDate2(returnByRaw)
+            let returnBy = formatDate2(returnByRaw);
             res.render('new_loan', {books:books, patrons:patrons, loanedOn:loanedOn, returnBy:returnBy});
         });
     });
@@ -144,20 +155,33 @@ router.get('/new_loan', function(req, res, next) {
 
 
 router.post('/new_loan', function(req, res, next) {
-  // Create a new row in the 'Article' table. 'req.body' is the POST info.
-  // function(article) is the newly created instance.
   models.Loan.create(req.body).then(function(loan) {
-    // after created, then redirect to this url to display newly created instance.
+    console.log("*****************got past it");
     res.redirect("/all_loans/");
     // if an error with creating the instance
   }).catch(function(error){
     // if the error is our custom validator we created in the model
       if(error.name === "SequelizeValidationError") {
-        // re render the form, 'Article.build' I assume is send what we have for this instance, and send the errors.
-        res.render("new_loan", {loan: models.Loan.build(req.body), errors: error.errors});
-      } 
-  });
-});
+        models.Book.findAll().then(function(books){
+            models.Patron.findAll().then(function(patrons){
+                let loanedOn = formatDate();
+                let returnByRaw = new Date();
+                returnByRaw.setDate(returnByRaw.getDate() + 7);
+                let returnBy = formatDate2(returnByRaw);
+                res.render('new_loan', {books:books, patrons:patrons, loanedOn:loanedOn, returnBy:returnBy, errors: error.errors});
+            });
+        });// re render the form, 'Article.build' I assume is send what we have for this instance, and send the errors.
+       }else {
+        throw error;
+      }
+  }).catch(function(error){
+      res.send(500, error);
+   
+    });
+}); 
+    
+
+
 
 
 

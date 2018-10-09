@@ -4,6 +4,11 @@ block title
   | New Book
  
 block content 
+
+  h1= error.message
+  h2= error.status
+  pre #{error.stack}
+
   h1 New Book
   form
     h2.error Oooops!
