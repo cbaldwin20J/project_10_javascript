@@ -9,7 +9,14 @@ module.exports = (sequelize, DataTypes) => {
     		}
     	}
     },
-    author: DataTypes.STRING,
+    author: {
+    	type: DataTypes.STRING,
+    	validate: {
+    		notEmpty: {
+    			msg: "Author is required"
+    		}
+    	}
+    },
     genre: DataTypes.STRING,
     first_published: DataTypes.INTEGER
   }, {timestamps: false});

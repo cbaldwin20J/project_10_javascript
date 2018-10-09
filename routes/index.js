@@ -73,7 +73,7 @@ router.get('/error', function(req, res, next) {
 });
 
 router.get('/books/new', function(req, res, next) {
-    res.render('new_book');
+    res.render('new_book', {book:{}});
 });
 
 
@@ -88,21 +88,19 @@ router.post('/books/new', function(req, res, next) {
     // if the error is our custom validator we created in the model
       if(error.name === "SequelizeValidationError") {
         // re render the form, 'Article.build' I assume is send what we have for this instance, and send the errors.
-        res.render("books/new", {book: models.Book.build(req.body), errors: error.errors});
-      } else {
-        // if the error is not our custom validator then go to the next 'catch'.
-        throw error;
-      }
-  }).catch(function(error){
-      res.send(500, error);
-   });
-;});
+        res.render("new_book", {book: models.Book.build(req.body), errors: error.errors});
+      } 
+  });
+});
 
 
 
 
-
-
+router.get('/erase', function(req, res, next) {
+    models.Book.findOne().then(function(book){
+        console.log("****************" + book.first_published);
+    })
+})
 
 
 
