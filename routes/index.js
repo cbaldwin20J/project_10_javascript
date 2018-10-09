@@ -76,6 +76,37 @@ router.get('/books/new', function(req, res, next) {
     res.render('new_book');
 });
 
+
+router.post('/books/new', function(req, res, next) {
+  // Create a new row in the 'Article' table. 'req.body' is the POST info.
+  // function(article) is the newly created instance.
+  models.Book.create(req.body).then(function(book) {
+    // after created, then redirect to this url to display newly created instance.
+    res.redirect("/book_detail/" + book.id);
+    // if an error with creating the instance
+  }).catch(function(error){
+    // if the error is our custom validator we created in the model
+      if(error.name === "SequelizeValidationError") {
+        // re render the form, 'Article.build' I assume is send what we have for this instance, and send the errors.
+        res.render("books/new", {book: models.Book.build(req.body), errors: error.errors});
+      } else {
+        // if the error is not our custom validator then go to the next 'catch'.
+        throw error;
+      }
+  }).catch(function(error){
+      res.send(500, error);
+   });
+;});
+
+
+
+
+
+
+
+
+
+
 router.get('/new_loan', function(req, res, next) {
     res.render('new_loan');
 });

@@ -3,9 +3,12 @@ extends layout
 block title
   | New Book
  
-block content 
+block content
+  if errors
+    each error in errors
+      p error.status
   h1 New Book
-  form
+  form(action='', method='post')
     p
       label(for='title') Title
       input#title(type='text')
