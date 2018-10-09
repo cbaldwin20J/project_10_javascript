@@ -7,7 +7,7 @@ module.exports = (sequelize, DataTypes) => {
     first_published: DataTypes.INTEGER
   }, {timestamps: false});
   Book.associate = function(models) {
-    // associations can be defined here
+    
   };
   return Book;
 };

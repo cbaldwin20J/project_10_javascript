@@ -38,12 +38,23 @@ router.get('/all_patrons', function(req, res, next) {
    });
 });
 
+
+
+
 /* not finished with this one. Need to do loan history at the bottom
 of the page */
 router.get('/book_detail/:id', function(req, res, next) {
-    models.Book.findById(req.params.id).then(function(book){
     
-        res.render("book_detail", {book: book});
+        models.Book.findById(req.params.id).then(function(book){
+            models.Loan.findAll({include: [models.Patron], where: {book_id:req.params.id}}).then(function(loans){
+                res.render("book_detail", {book:book, loans:loans});
+            });
+
+            
+            
+
+        
+        
     
   }).catch(function(error){
       res.send(500, error);
@@ -100,3 +111,5 @@ router.get('/return_book', function(req, res, next) {
 
 module.exports = router;
 
+/* the Loan model is what connects the books and the patrons together. No need for a 
+foreign key */
