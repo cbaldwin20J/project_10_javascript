@@ -27,9 +27,9 @@ block content
       each unreturned_loan in unreturned_loans
         tr
           td
-            a(href='book_detail') #{unreturned_loan.Book.title}
+            a(href='book_detail/'+unreturned_loan.Book.id) #{unreturned_loan.Book.title}
           td
-            a(href='patron_detail') #{unreturned_loan.Patron.first_name} #{unreturned_loan.Patron.last_name}
+            a(href='patron_detail/'+unreturned_loan.Patron.id) #{unreturned_loan.Patron.first_name} #{unreturned_loan.Patron.last_name}
           td #{unreturned_loan.loaned_on}
           td #{unreturned_loan.return_by}
           td

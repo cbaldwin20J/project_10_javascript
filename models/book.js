@@ -17,7 +17,15 @@ module.exports = (sequelize, DataTypes) => {
     		}
     	}
     },
-    genre: DataTypes.STRING,
+    genre: {
+    	type: DataTypes.STRING,
+    	validate: {
+    		notEmpty: {
+    			msg: "Genre is required"
+    		}
+    	}
+    },
+
     first_published: DataTypes.INTEGER
   }, {timestamps: false});
   Book.associate = function(models) {

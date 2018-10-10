@@ -27,9 +27,9 @@ block content
       each overdue_loan in overdue_loans
         tr
           td
-            a(href='book_detail') #{overdue_loan.Book.title}
+            a(href='book_detail/'+overdue_loan.Book.id) #{overdue_loan.Book.title}
           td
-            a(href='patron_detail') #{overdue_loan.Patron.first_name} #{overdue_loan.Patron.last_name}
+            a(href='patron_detail/'+overdue_loan.Book.id) #{overdue_loan.Patron.first_name} #{overdue_loan.Patron.last_name}
           td #{overdue_loan.loaned_on}
           td #{overdue_loan.return_by}
           td
