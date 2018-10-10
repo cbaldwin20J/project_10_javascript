@@ -4,22 +4,30 @@ block title
   | Return Book
  
 block content 
-  h1 Patron: Return Book
+
+  if error 
+    h2 Ooops an error occured!
+    ul
+      each e in error
+        li
+          =e.message
+
+  h1 Patron: Return Book 
   p
     strong Book Title: 
-    | Harry Potter and the Goblet of Fire
+    | #{loan.Book.title}
   p
     strong Loaned By: 
-    | Andrew Chalkley
+    | #{loan.Patron.first_name} #{loan.Patron.last_name}
   p
     strong Loaned On: 
-    | 2015-12-11
+    | #{loan.loaned_on}
   p
     strong Return By: 
-    | 2015-12-18
-  form
+    | #{loan.return_by}
+  form(action='/return_book/'+loan.id, method='POST') 
     p
       label(for='returned_on') Returned on:
-      input#returned_on(type='text' value='2020-10-10')
+      input#returned_on(type='text' name='returned_on' value=returned)
     p
       input(type='submit' value='Return Book')

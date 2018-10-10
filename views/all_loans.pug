@@ -27,9 +27,9 @@ block content
       each loan in loans
         tr
           td
-            a(href='book_detail') #{loan.Book.title}
+            a(href='book_detail/'+loan.Book.id) #{loan.Book.title}
           td
-            a(href='patron_detail') #{loan.Patron.first_name} #{loan.Patron.last_name}
+            a(href='patron_detail/'+loan.Patron.id) #{loan.Patron.first_name} #{loan.Patron.last_name}
           td #{loan.loaned_on}
           td #{loan.return_by}
           td #{loan.returned_on}
@@ -37,5 +37,5 @@ block content
             td returned
           else
             td
-              a.button(href='return_book') Return Book
+              a.button(href='/return_book/' + loan.id) Return Book
         

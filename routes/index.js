@@ -54,6 +54,34 @@ router.get('/book_detail/:id', function(req, res, next) {
         });
 });
 
+
+
+router.post('/book_detail/:id', function(req, res, next) {
+    models.Book.findById(req.params.id).then(function(book){
+        if(book){
+            return book.update(req.body);
+        } else{
+            res.send(404);
+        }
+    }).then(function(){
+        res.redirect("/all_books"); 
+    }).catch(function(error){
+      if(error.name === "SequelizeValidationError") {
+        models.Loan.findAll({include: [models.Patron], where: {book_id:req.params.id}}).then(function(loans){
+        let book = models.Book.build(req.body);
+        
+        res.render("book_detail", {book:book, loans:loans, error:error})
+        });
+      } else {
+        throw error;
+      }
+  }).catch(function(error){
+      res.send(500, error);
+   });
+});
+
+
+
 router.get('/checked_books', function(req, res, next) {
     models.Loan.findAll({include: [models.Book], where: {returned_on: null}}).then(function(loans){
         res.render('checked_books', {unreturned_loans: loans});
@@ -155,7 +183,7 @@ router.get('/new_loan', function(req, res, next) {
 
 
 router.post('/new_loan', function(req, res, next) {
-  models.Loan.create(req.body).then(function(loan) {
+  models.Loan.create(req.body).then(function() {
     console.log("*****************got past it");
     res.redirect("/all_loans/");
     // if an error with creating the instance
@@ -239,15 +267,84 @@ router.get('/patron_detail/:id', function(req, res, next) {
             res.render("patron_detail", {loans: loans, patron:patron});
         });
         
-    
   }).catch(function(error){
       res.send(500, error);
    });
 });
 
-router.get('/return_book', function(req, res, next) {
-    res.render('return_book');
+
+router.post('/patron_detail/:id', function(req, res, next) {
+    models.Patron.findById(req.params.id).then(function(patron){
+        if(patron){
+            return patron.update(req.body);
+        } else{
+            res.send(404);
+        }
+    }).then(function(){
+        res.redirect("/all_patrons"); 
+    }).catch(function(error){
+      if(error.name === "SequelizeValidationError") {
+        models.Loan.findAll({include: [models.Book], where: {patron_id: req.params.id}}).then(function(loans){
+        let patron = models.Patron.build(req.body);
+        
+        res.render("patron_detail", {patron:patron, loans:loans, error:error});
+        });
+      } else {
+        throw error;
+      }
+  }).catch(function(error){
+      res.send(500, error);
+   });
 });
+
+
+
+router.get('/return_book/:id', function(req, res, next) {
+    models.Loan.findOne({include: [models.Book, models.Patron], where: {id: req.params.id}}).then(function(loan){
+        
+        res.render('return_book', {loan:loan, returned: formatDate()});
+    });
+    
+});
+
+
+
+
+
+
+router.post('/return_book/:id', function(req, res, next) {
+    models.Loan.findById(req.params.id).then(function(loan){
+        if(loan){
+            return loan.update({returned_on: req.body.returned_on});
+        } else{
+            res.send(404);
+        }
+    }).then(function(){
+        res.redirect("/all_loans"); 
+    }).catch(function(error){
+      if(error.name === "SequelizeValidationError") {
+        let loan = models.Loan.build(req.body);
+        
+        res.render("return_book", {loan:loan, returned: formatDate(), error:error});
+      } else {
+        throw error;
+      }
+  }).catch(function(error){
+      res.send(500, error);
+   });
+});
+        
+        
+    
+
+
+
+
+
+
+
+
+
 
 module.exports = router;
 
