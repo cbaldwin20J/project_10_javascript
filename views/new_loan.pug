@@ -6,10 +6,10 @@ block title
 block content 
 
   if errors 
-    h2 Ooops an error occured!
+    h2.error_color Ooops an error occured!
     ul
       each error in errors
-        li
+        li.error_color
           =error.message
 
   h1 New Loan
@@ -18,13 +18,13 @@ block content
       label(for='book_id') Book
       select#book_id(name='book_id')
         each book in books
-          option(value=book.id) #{book.title}
+          option(value=book.id) #{book.id}
         
     p
       label(for='patron_id') Patron
       select#patron_id(name='patron_id')
         each patron in patrons
-          option(value=patron.id) #{patron.first_name} #{patron.last_name}
+          option(value=patron.id) #{patron.id}
         
     p
       label(for='loaned_on') Loaned on:

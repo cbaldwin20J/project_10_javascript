@@ -6,10 +6,10 @@ block title
 block content 
 
   if error 
-    h2 Ooops an error occured!
+    h2.error_color Ooops an error occured!
     ul
       each e in error
-        li
+        li.error_color
           =e.message
 
   h1 Patron: Return Book 

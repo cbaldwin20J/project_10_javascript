@@ -110,7 +110,7 @@ router.post('/books/new', function(req, res, next) {
   // function(article) is the newly created instance.
   models.Book.create(req.body).then(function(book) {
     // after created, then redirect to this url to display newly created instance.
-    res.redirect("/book_detail/" + book.id);
+    res.redirect("/all_books");
     // if an error with creating the instance
   }).catch(function(error){
     // if the error is our custom validator we created in the model
@@ -226,7 +226,7 @@ router.post('/patrons/new', function(req, res, next) {
   // function(article) is the newly created instance.
   models.Patron.create(req.body).then(function(patron) {
     // after created, then redirect to this url to display newly created instance.
-    res.redirect("/patron_detail/" + patron.id);
+    res.redirect("/all_patrons");
     // if an error with creating the instance
   }).catch(function(error){
     // if the error is our custom validator we created in the model
@@ -313,6 +313,16 @@ router.get('/return_book/:id', function(req, res, next) {
 
 
 router.post('/return_book/:id', function(req, res, next) {
+    if(!req.body.returned_on || !(req.body.returned_on.match(/(\d{4})-(\d{2})-(\d{2})/))){
+        let error = [new Error("'Returned On' needs be YYYY-MM-DD")];
+        
+        let loan = models.Loan.build(req.body);
+        models.Loan.findOne({include: [models.Book, models.Patron], where: {id: req.params.id}}).then(function(loan){
+        
+        res.render('return_book', {loan:loan, returned: formatDate(), error:error});
+    });
+
+    }
     models.Loan.findById(req.params.id).then(function(loan){
         if(loan){
             return loan.update({returned_on: req.body.returned_on});

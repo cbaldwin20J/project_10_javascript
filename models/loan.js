@@ -13,7 +13,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.INTEGER,
       validate: {
         notEmpty: {
-          msg: "patron_id is required"
+          msg: "patron id is required"
         }
       }
     },
@@ -21,7 +21,10 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.DATEONLY,
       validate: {
         notEmpty: {
-          msg: "loaned_on is required"
+          msg: "loaned on is required"
+        },
+        isDate: {
+          msg: "loaned on must be YYYY-MM-DD. ex: 2018-03-20"
         }
       }
     },
@@ -30,6 +33,9 @@ module.exports = (sequelize, DataTypes) => {
       validate: {
         notEmpty: {
           msg: "return_by is required"
+        },
+        isDate: {
+          msg: "return by must be YYYY-MM-DD. ex: 2018-03-20"
         }
       }
     },

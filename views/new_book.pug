@@ -6,10 +6,10 @@ block title
 block content
   
   if errors 
-    h2 Ooops an error occured!
+    h2.error_color Ooops an error occured!
     ul
       each error in errors
-        li
+        li.error_color
           =error.message
 
   h1 New Book

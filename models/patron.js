@@ -11,8 +11,22 @@ module.exports = (sequelize, DataTypes) => {
     },
     last_name: DataTypes.STRING,
     address: DataTypes.STRING,
-    email: DataTypes.STRING,
-    library_id: DataTypes.STRING,
+    email: {
+      type: DataTypes.STRING,
+      validate: {
+        unique: {
+          msg: "This email is already used"
+        }
+      }
+    },
+    library_id: {
+      type: DataTypes.INTEGER,
+      validate: {
+        unique: {
+          msg: "This library id is already used"
+        }
+      }
+    },
     zip_code: DataTypes.INTEGER
   }, {timestamps: false});
   Patron.associate = function(models) {

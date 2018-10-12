@@ -6,6 +6,9 @@ module.exports = (sequelize, DataTypes) => {
     	validate: {
     		notEmpty: {
     			msg: "Title is required"
+    		},
+    		unique: {
+    			msg: "This title is already in the database"
     		}
     	}
     },
