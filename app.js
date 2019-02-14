@@ -39,3 +39,6 @@ app.use(function(err, req, res, next) {
 });
 
 module.exports = app;
+
+// can add pagination for all_books, all_loans, all_patrons
+// can search books by title, author, genre

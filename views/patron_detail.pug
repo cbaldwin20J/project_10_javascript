@@ -1,9 +1,9 @@
-extends layout 
+extends layout
 
 block title
   | Andrew Chalkley
- 
-block content 
+
+block content
   h1=`Patron: ${patron.first_name} ${patron.last_name}`
   form(action='/patron_detail/'+patron.id, method='POST')
     p
@@ -31,9 +31,9 @@ block content
     thead
       tr
         th Book
-        th Patron 
+        th Patron
         th Loaned on
-        th Return by 
+        th Return by
         th Returned on
         th Action
     tbody
@@ -41,9 +41,9 @@ block content
         each loan in loans
           tr
             td
-              a(href='book_detail') #{loan.Book.title}
+              a(href='/book_detail') #{loan.Book.title}
             td
-              a(href='patron_detail') #{patron.first_name} #{patron.last_name}
+              a(href='/patron_detail') #{patron.first_name} #{patron.last_name}
             td #{loan.loaned_on}
             td #{loan.return_by}
             td #{loan.returned_on}
@@ -51,8 +51,8 @@ block content
               td returned
             else
               td
-                a.button(href='return_book') Return Book
-            
+                a.button(href='/return_book/' + loan.id) Return Book
+
       else
         tr
           td There are no loans

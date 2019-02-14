@@ -2,18 +2,18 @@ extends layout
 
 block title
   | Overdue Books
- 
-block content 
+
+block content
   h1 Overdue Books
   p
-    a.button(href='books/new') Create New Book
+    a.button(href='/books/new') Create New Book
   p
-    | Filters 
-    a(href='all_books') All
-    |  | 
-    a(href='overdue_books') Overdue
-    |  | 
-    a(href='checked_books') Checked Out
+    | Filters
+    a(href='/all_books') All
+    |  |
+    a(href='/overdue_books') Overdue
+    |  |
+    a(href='/checked_books') Checked Out
   table
     thead
       tr
@@ -25,8 +25,8 @@ block content
       each overdue_loan in overdue_loans
         tr
           td
-            a(href='book_detail/'+overdue_loan.Book.id) #{overdue_loan.Book.title}
+            a(href='/book_detail/'+overdue_loan.Book.id) #{overdue_loan.Book.title}
           td #{overdue_loan.Book.author}
           td #{overdue_loan.Book.genre}
           td #{overdue_loan.Book.first_published}
-        
+

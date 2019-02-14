@@ -2,37 +2,36 @@ extends layout
 
 block title
   | Overdue Loans
- 
-block content 
+
+block content
   h1 Overdue Loans
   p
-    a.button(href='new_loan') Create New Loan
+    a.button(href='/new_loan') Create New Loan
   p
-    | Filters 
-    a(href='all_loans') All
-    |  | 
-    a(href='overdue_loans') Overdue
-    |  | 
-    a(href='checked_loans') Checked Out
+    | Filters
+    a(href='/all_loans') All
+    |  |
+    a(href='/overdue_loans') Overdue
+    |  |
+    a(href='/checked_loans') Checked Out
   table
     thead
       tr
         th Book
-        th Patron 
+        th Patron
         th Loaned on
-        th Return by 
+        th Return by
         th Returned on
         th Action
     tbody
       each overdue_loan in overdue_loans
         tr
           td
-            a(href='book_detail/'+overdue_loan.Book.id) #{overdue_loan.Book.title}
+            a(href='/book_detail/'+overdue_loan.Book.id) #{overdue_loan.Book.title}
           td
-            a(href='patron_detail/'+overdue_loan.Book.id) #{overdue_loan.Patron.first_name} #{overdue_loan.Patron.last_name}
+            a(href='/patron_detail/'+overdue_loan.Book.id) #{overdue_loan.Patron.first_name} #{overdue_loan.Patron.last_name}
           td #{overdue_loan.loaned_on}
           td #{overdue_loan.return_by}
           td
           td
-            a.button(href='return_book') Return Book
-        
+            a.button(href='/return_book/' + overdue_loan.id) Return Book

@@ -2,18 +2,18 @@ extends layout
 
 block title
   | Books
- 
-block content 
+
+block content
   h1 Checked Out Books
   p
-    a.button(href='books/new') Create New Book
+    a.button(href='/books/new') Create New Book
   p
-    | Filters 
-    a(href='all_books') All
-    |  | 
-    a(href='overdue_books') Overdue
-    |  | 
-    a(href='checked_books') Checked Out
+    | Filters
+    a(href='/all_books') All
+    |  |
+    a(href='/overdue_books') Overdue
+    |  |
+    a(href='/checked_books') Checked Out
   table
     thead
       tr
@@ -25,8 +25,8 @@ block content
       each unreturned_loan in unreturned_loans
         tr
           td
-            a(href='book_detail/'+unreturned_loan.Book.id) #{unreturned_loan.Book.title}
+            a(href='/book_detail/'+unreturned_loan.Book.id) #{unreturned_loan.Book.title}
           td #{unreturned_loan.Book.author}
           td #{unreturned_loan.Book.genre}
           td #{unreturned_loan.Book.first_published}
-        
+

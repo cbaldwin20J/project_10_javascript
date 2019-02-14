@@ -14,21 +14,24 @@ module.exports = (sequelize, DataTypes) => {
     email: {
       type: DataTypes.STRING,
       validate: {
-        unique: {
-          msg: "This email is already used"
+        notEmpty: {
+          msg: "Email is required"
         }
       }
     },
     library_id: {
       type: DataTypes.INTEGER,
       validate: {
-        unique: {
-          msg: "This library id is already used"
+        notEmpty: {
+          msg: "Library Id is required"
         }
       }
     },
     zip_code: DataTypes.INTEGER
-  }, {timestamps: false});
+  }, {
+    timestamps: false,
+
+    });
   Patron.associate = function(models) {
     // associations can be defined here
   };

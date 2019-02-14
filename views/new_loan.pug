@@ -1,11 +1,11 @@
-extends layout 
+extends layout
 
 block title
   | New Loan
- 
-block content 
 
-  if errors 
+block content
+
+  if errors
     h2.error_color Ooops an error occured!
     ul
       each error in errors
@@ -18,14 +18,14 @@ block content
       label(for='book_id') Book
       select#book_id(name='book_id')
         each book in books
-          option(value=book.id) #{book.id}
-        
+          option(value=book.id) #{book.title}
+
     p
       label(for='patron_id') Patron
       select#patron_id(name='patron_id')
         each patron in patrons
-          option(value=patron.id) #{patron.id}
-        
+          option(value=patron.id) #{patron.first_name} #{patron.last_name}
+
     p
       label(for='loaned_on') Loaned on:
       input#loaned_on(type='text' value=loanedOn name='loaned_on')

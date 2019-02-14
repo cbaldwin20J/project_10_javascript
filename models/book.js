@@ -6,10 +6,8 @@ module.exports = (sequelize, DataTypes) => {
     	validate: {
     		notEmpty: {
     			msg: "Title is required"
-    		},
-    		unique: {
-    			msg: "This title is already in the database"
     		}
+
     	}
     },
     author: {
@@ -32,7 +30,7 @@ module.exports = (sequelize, DataTypes) => {
     first_published: DataTypes.INTEGER
   }, {timestamps: false});
   Book.associate = function(models) {
-    
+
   };
   return Book;
 };

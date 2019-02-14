@@ -1,11 +1,11 @@
 extends layout
- 
+
 block title
   | A Brief History of Time
- 
-block content 
-  if error 
-   
+
+block content
+  if error
+
     ul
       each e in error
         li
@@ -32,9 +32,9 @@ block content
     thead
       tr
         th Book
-        th Patron 
+        th Patron
         th Loaned on
-        th Return by 
+        th Return by
         th Returned on
         th Action
     tbody
@@ -42,14 +42,14 @@ block content
         each loan in loans
           tr
             td
-              a(href='book_detail') #{book.title}
+              a(href='/book_detail/' + book.id) #{book.title}
             td
-              a(href='patron_detail') #{loan.Patron.first_name} #{loan.Patron.last_name}
+              a(href='/patron_detail/' + loan.Patron.id) #{loan.Patron.first_name} #{loan.Patron.last_name}
             td #{loan.loaned_on}
             td #{loan.return_by}
             td #{loan.returned_on}
             td
-              a.button(href='return_book') Return Book
+              a.button(href='/return_book/' + loan.id) Return Book
       else
         tr
           td There are no loans for this book.
